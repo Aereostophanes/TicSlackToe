@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Challenge friends to game of Tic Tac Toe in Slack.",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Matthew James",
   "license": "MIT",
   "dependencies": {
