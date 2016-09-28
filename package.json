@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Challenge friends to game of Tic Tac Toe in Slack.",
   "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
   "author": "Matthew James",
   "license": "MIT",
   "dependencies": {
