@@ -7,7 +7,7 @@ const server = new Hapi.Server();
 server.connection({port : process.env.PORT || 8080});
 
 server.route({
-	method : 'GET',
+	method : 'POST',
 	path : '/ttt',
 	handler : routes.ttt
 });
