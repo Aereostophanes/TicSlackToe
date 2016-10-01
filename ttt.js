@@ -1,2 +1,0 @@
-var game = module.exports = {
-};

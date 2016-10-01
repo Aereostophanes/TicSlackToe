@@ -1,6 +1,7 @@
-var routes = module.exports = {
-	ttt : function(request, reply) {
-		console.log(request.params.token);
-		reply('Hello, ' + encodeURIComponent(request.params.name) + '!');
+var handler = require('./handler.js');
+
+module.exports = {
+	ticSlackToe : function(request, reply) {
+		handler.getResponse(request, reply);
 	}
 };

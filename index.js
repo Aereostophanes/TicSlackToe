@@ -9,7 +9,7 @@ server.connection({port : process.env.PORT || 8080});
 server.route({
 	method : 'POST',
 	path : '/ttt',
-	handler : routes.ttt
+	handler : routes.ticSlackToe
 });
 
 server.start((err) => {
