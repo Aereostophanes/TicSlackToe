@@ -1,24 +1,25 @@
 var Games = require('./Games.js');
-var game = new Games();
+var games = new Games();
 
 var commands = {
-	'create' : game.create,
-	'move' : game.move,
-	'show' : game.show,
-	'help' : game.help,
-	'remind' : game.remind
+	'create' : games.create,
+	'move' : games.move,
+	'show' : games.show,
+	'help' : games.help,
+	'remind' : games.remind
 };
 
 module.exports = {
 	getResponse : function(request, reply) {
+		console.log(request);
 		if (request.query.token != 'AnRhdE7ComIJAecIcy6ciPjx') {
-			reply(request);
+			reply(request.query.token + ' ' + request.payload.token);
 		} else {
 			var command = request.query.text.split(' ')[0];
 			if (commands[command] != undefined) {
 				commands[command](request, reply);
 			} else {
-				return reply('Invalid command. Call "/ttt help" for your options.');
+				reply('Invalid command. Call "/ttt help" for your options.');
 			}
 		}
 	}
