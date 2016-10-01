@@ -11,7 +11,7 @@ var commands = {
 
 module.exports = {
 	getResponse : function(request, reply) {
-		if (request.query.token != 'ySTxHr84xmqaUtUcradV6jQz') {
+		if (request.query.token != 'AnRhdE7ComIJAecIcy6ciPjx') {
 			reply('Invalid token.');
 		} else {
 			var command = request.query.text.split(' ')[0];
