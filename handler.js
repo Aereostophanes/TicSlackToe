@@ -12,7 +12,7 @@ var commands = {
 module.exports = {
 	getResponse : function(request, reply) {
 		if (request.query.token != 'AnRhdE7ComIJAecIcy6ciPjx') {
-			reply('Invalid token.');
+			reply(request);
 		} else {
 			var command = request.query.text.split(' ')[0];
 			if (commands[command] != undefined) {
