@@ -7,7 +7,8 @@ var commands = {
 	"create" : games.create,
 	"move" : games.move,
 	"show" : games.show,
-	"help" : games.help
+	"help" : games.help,
+	"end" : games.end
 };
 
 function validate(request) {
@@ -35,7 +36,7 @@ function validate(request) {
 			break;
 		case "show":
 		case "help":
-		case "remind":
+		case "end":
 			if (command.length != 1) {
 				isValid = false;
 			}
