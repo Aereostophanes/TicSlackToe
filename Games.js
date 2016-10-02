@@ -56,7 +56,7 @@ Games.prototype.move = function(request, reply) {
 		if (currentGame.getNumMoves() == 9) {
 			var draw = "\nIt was a draw game!";
 			board += draw;
-			delete currentGame;
+			delete this.games[id];
 		} else {
 			var nextTurn = "\n" + player.getName() + "(" + player.getMark() + "), it is your turn.";
 			board += nextTurn;
@@ -65,7 +65,7 @@ Games.prototype.move = function(request, reply) {
 		var winner = currentGame.getNextPlayer();
 		var winText = winner.getName() + " is the winner!";
 		board += winText;
-		delete currentGame;
+		delete this.games[id];
 	}
 	reply({"text" : board, "response_type" : "in_channel"});
 };
@@ -92,9 +92,9 @@ Games.prototype.end = function(request, reply) {
 	if (playerNames[0] != currentUser && playerNames[1] != currentUser) {
 		return reply("You are not an active participant in this game, so you can't end it. Only " + playerNames[0] + " and " + playerNames[1] + " can end it.");
 	} else {
-		delete currentGame;
+		delete this.games[id];
+		reply({"text" : "The Tic Tac Toe game in this channel has been terminated.", "response_type" : "in_channel"});
 	}
-	reply({"text" : "The Tic Tac Toe game in this channel has been terminated.", "response_type" : "in_channel"});
 };
 
 module.exports = Games;
