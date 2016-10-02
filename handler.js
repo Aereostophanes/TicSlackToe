@@ -12,7 +12,7 @@ var commands = {
 
 function validate(request) {
 	var isValid = true;
-	var command = request.query.text.split(" ");
+	var command = request.payload.text.split(" ");
 	switch (command[0]) {
 		case "create":
 			if (command.length != 2) {
@@ -24,7 +24,7 @@ function validate(request) {
 			}
 			break;
 		case "move":
-			var currentUser = request.query.user_name;
+			var currentUser = request.payload.user_name;
 			if (command.length != 2) {
 				isValid = false;
 			} else {
@@ -48,13 +48,13 @@ function validate(request) {
 
 module.exports = {
 	getResponse : function(request, reply) {
-		if (request.query.token !== token) {
+		if (request.payload.token !== token) {
 			reply("Invalid token.");
 		} else {
 			if (!validate(request)) {
 				reply("Invalid command. Call '/ttt help' for your options.");
 			} else {
-				var command = request.query.text.split(" ")[0];
+				var command = request.payload.text.split(" ")[0];
 				commands[command](request, reply);
 			}
 		}

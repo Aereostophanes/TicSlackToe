@@ -5,20 +5,20 @@ var Games = function() {
 };
 
 Games.prototype.create = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 	if (this.games != undefined && this.games[id] != undefined) {
 		reply("A game has already been created in this channel.");
 	} else {
 		if (this.games == undefined) {
 			this.games = {};
 		}
-		this.games[id] = new TicSlackToe("@" + request.query.user_name, request.query.text.split(" ")[1]);
+		this.games[id] = new TicSlackToe("@" + request.payload.user_name, request.payload.text.split(" ")[1]);
 		this.show(request, reply);
 	}
 };
 
 Games.prototype.show = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 	if (this.games == undefined || this.games[id] == undefined) {
 		return reply("There is no game in this channel to show.");
 	}
@@ -31,19 +31,19 @@ Games.prototype.show = function(request, reply) {
 };
 
 Games.prototype.move = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 	if (this.games == undefined || this.games[id] == undefined) {
 		return reply("There is no game in this channel, so a move cannot be made.");
 	}
 	var currentGame = this.games[id];
 	var playerNames = [currentGame.getPlayers()[0].getName(), currentGame.getPlayers()[1].getName()];
-	var currentUser = "@" + request.query.user_name;
+	var currentUser = "@" + request.payload.user_name;
 	if (playerNames[0] != currentUser && playerNames[1] != currentUser) {
 		return reply("You are not an active participant in this game. Only " + playerNames[0] + " and " + playerNames[1] + " are.");
-	} else if ("@" + request.query.user_name != currentGame.getCurrentPlayer().getName()) {
+	} else if ("@" + request.payload.user_name != currentGame.getCurrentPlayer().getName()) {
 		return reply("It is not your turn yet. Wait for " + currentGame.getCurrentPlayer().getName() + " to make a move.");
 	}
-	var move = parseInt(request.query.text.split(" ")[1]);
+	var move = parseInt(request.payload.text.split(" ")[1]);
 	if (move < 1 || move > 9) {
 		return reply("That is an invalid move. Try again.");
 	} else if (currentGame.isOccupied(move)) {
