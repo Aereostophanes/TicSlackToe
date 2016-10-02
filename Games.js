@@ -27,7 +27,8 @@ Games.prototype.show = function(request, reply) {
 	var player = currentGame.getPlayers()[0].getTurn() ? currentGame.getPlayers()[0] : currentGame.getPlayers()[1];
 	var nextTurn = "\n" + player.getName() + "(" + player.getMark() + "), it is your turn.";
 	board += nextTurn;
-	reply({"text" : board, "response_type" : "in_channel"});
+	//reply({"text" : board, "response_type" : "in_channel"});
+	reply(board);
 };
 
 Games.prototype.move = function(request, reply) {
