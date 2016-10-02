@@ -1,4 +1,4 @@
-var handler = require('./handler.js');
+var handler = require("./handler.js");
 
 module.exports = {
 	ticSlackToe : function(request, reply) {

@@ -1,20 +1,18 @@
-'use strict';
-
-const Hapi = require('hapi');
-var routes = require('./routes.js');
+const Hapi = require("hapi");
+var routes = require("./routes.js");
 
 const server = new Hapi.Server();
 server.connection({port : process.env.PORT || 8080});
 
 server.route({
-	method : 'POST',
-	path : '/ttt',
+	method : "POST",
+	path : "/ttt",
 	handler : routes.ticSlackToe
 });
 
 server.start((err) => {
 	if (err) throw err;
-	console.log('Server running at: ' + server.info.uri);
+	console.log("Server running at: " + server.info.uri);
 });
 
 

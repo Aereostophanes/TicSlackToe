@@ -19,7 +19,7 @@ Player.prototype.getMark = function() {
 	return this.mark;
 };
 
-Player.prototype.getPlayer = function() {
+Player.prototype.getName = function() {
 	return this.player;
 };
 
