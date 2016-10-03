@@ -27,7 +27,7 @@ Games.prototype.show = function(request, reply) {
 	var player = currentGame.getPlayers()[0].getTurn() ? currentGame.getPlayers()[0] : currentGame.getPlayers()[1];
 	var nextTurn = "\n" + player.getName() + "(" + player.getMark() + "), it is your turn.";
 	board += nextTurn;
-	reply({"text" : board, "response_type" : "in_channel"});
+	reply({"text" : "```" + board + "```", "response_type" : "in_channel"});
 };
 
 Games.prototype.move = function(request, reply) {
@@ -39,7 +39,7 @@ Games.prototype.move = function(request, reply) {
 	var playerNames = [currentGame.getPlayers()[0].getName(), currentGame.getPlayers()[1].getName()];
 	var currentUser = "@" + request.payload.user_name;
 	if (playerNames[0] != currentUser && playerNames[1] != currentUser) {
-		return reply("You are not an active participant in this game. Only " + playerNames[0] + " and " + playerNames[1] + " are.");
+		return reply("You are not an active participant in this game. Only " + playerNames[0] + " and " + playerNames[1] + " can make moves.");
 	} else if ("@" + request.payload.user_name != currentGame.getCurrentPlayer().getName()) {
 		return reply("It is not your turn yet. Wait for " + currentGame.getCurrentPlayer().getName() + " to make a move.");
 	}
@@ -63,11 +63,11 @@ Games.prototype.move = function(request, reply) {
 		}
 	} else {
 		var winner = currentGame.getNextPlayer();
-		var winText = winner.getName() + " is the winner!";
+		var winText = winner.getName() + " is the winner! Game over!";
 		board += winText;
 		delete this.games[id];
 	}
-	reply({"text" : board, "response_type" : "in_channel"});
+	reply({"text" : "```" + board + "```", "response_type" : "in_channel"});
 };
 
 Games.prototype.help = function(request, reply) {
@@ -78,7 +78,7 @@ Games.prototype.help = function(request, reply) {
 	help += "remind - this command reminds your opponent to make a move.\n";
 	help += "help - this command shows you what commands are available to you."
 
-	reply(help);
+	reply("```" + help + "```");
 };
 
 Games.prototype.end = function(request, reply) {
@@ -90,7 +90,7 @@ Games.prototype.end = function(request, reply) {
 	var playerNames = [currentGame.getPlayers()[0].getName(), currentGame.getPlayers()[1].getName()];
 	var currentUser = "@" + request.payload.user_name;
 	if (playerNames[0] != currentUser && playerNames[1] != currentUser) {
-		return reply("You are not an active participant in this game, so you can't end it. Only " + playerNames[0] + " and " + playerNames[1] + " can end it.");
+		reply("You are not an active participant in this game, so you can't end it. Only " + playerNames[0] + " and " + playerNames[1] + " can end it.");
 	} else {
 		delete this.games[id];
 		reply({"text" : "The Tic Tac Toe game in this channel has been terminated.", "response_type" : "in_channel"});

@@ -10,13 +10,13 @@ var TicSlackToe = function(p1, p2) {
 TicSlackToe.prototype.displayBoard = function() {
 	var board = "";
 
-	board += "``` --- --- ---\n";
+	board += " --- --- ---\n";
 	board += "| " + this.board[0] + " | " + this.board[1] + " | " + this.board[2] + " |\n";
 	board += " --- --- ---\n";
 	board += "| " + this.board[3] + " | " + this.board[4] + " | " + this.board[5] + " |\n";
 	board += " --- --- ---\n";
 	board += "| " + this.board[6] + " | " + this.board[7] + " | " + this.board[8] + " |\n";
-	board += " --- --- ---\n```";
+	board += " --- --- ---\n";
 
 	return board;
 };
