@@ -55,6 +55,9 @@ function validate(request, reply) {
 				if (!Number.isInteger(parseInt(command[1]))) {
 					isValid = false;
 					message = "The tile you specified is not a number.";
+				} else if (command[1].length > 2) {
+					isValid = false;
+					message = "The number should only be one digit.";
 				}
 			}
 			break;
@@ -102,7 +105,6 @@ module.exports = {
 						users["@" + userList[i]["name"]] = true;
 					}
 				}
-				console.log(users);
 			}
 		});
 	}
