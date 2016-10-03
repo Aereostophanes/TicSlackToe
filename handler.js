@@ -23,21 +23,26 @@ var commands = {
  * This function validates the body text from a request.
  * param request - a request
  */
-function validate(request) {
+function validate(request, reply) {
 	var isValid = true;
+	var message = "";
 	var command = request.payload.text.split(" ");
 	switch (command[0]) {
 		case "create":
 			if (command.length != 2) {
 				isValid = false;
+				message = "Not enough or too many words in command.";
 			} else {
 				if (command[1][0] != "@") {
 					isValid = false;
+					message = "Username must begin with @.";
 				} else if (command[1] == "@channel" || command[1] == "@slackbot" || command[1] == "@everyone") {
 					isValid = false;
+					message = "Cannot play a game with @channel, @slackbot, or @everyone.";
 				// We don't want people who aren't in the team to be invited to play a game.
 				} else if (users[command[1]] == undefined) {
 					isValid = false;
+					message = "This user is not in the team.";
 				}
 			}
 			break;
@@ -45,9 +50,11 @@ function validate(request) {
 			var currentUser = request.payload.user_name;
 			if (command.length != 2) {
 				isValid = false;
+				message = "Not enough or too many words in command.";
 			} else {
 				if (!Number.isInteger(parseInt(command[1]))) {
 					isValid = false;
+					message = "The tile you specified is not a number.";
 				}
 			}
 			break;
@@ -57,12 +64,14 @@ function validate(request) {
 		case "end":
 			if (command.length != 1) {
 				isValid = false;
+				message = "Too many words in command.";
 			}
 			break;
 		default:
 			isValid = false;
+			message = "This is not a recognizable command.";
 	}
-	return isValid;
+	return [isValid, message];
 };
 
 module.exports = {
@@ -71,8 +80,9 @@ module.exports = {
 		if (request.payload.token !== token) {
 			reply("Invalid token.");
 		} else {
-			if (!validate(request)) {
-				reply("Invalid command. Call '/ttt help' for your options.");
+			var valid = validate(request, reply);
+			if (!valid[0]) {
+				reply(valid[1]);
 			} else {
 				var command = request.payload.text.split(" ")[0];
 				commands[command](request, reply);
@@ -92,6 +102,7 @@ module.exports = {
 						users["@" + userList[i]["name"]] = true;
 					}
 				}
+				console.log(users);
 			}
 		});
 	}
