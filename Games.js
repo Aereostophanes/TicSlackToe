@@ -16,7 +16,7 @@ var Games = function() {
  * param reply - reply object that will send response to server
  */
 Games.prototype.create = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 
 	// Don't create a game if one already exists.
 	if (this.games != undefined && this.games[id] != undefined) {
@@ -27,7 +27,7 @@ Games.prototype.create = function(request, reply) {
 		if (this.games == undefined) {
 			this.games = {};
 		}
-		this.games[id] = new TicSlackToe("@" + request.query.user_name, request.query.text.split(" ")[1]);
+		this.games[id] = new TicSlackToe("@" + request.payload.user_name, request.payload.text.split(" ")[1]);
 		this.show(request, reply);
 	}
 };
@@ -40,7 +40,7 @@ Games.prototype.create = function(request, reply) {
  * param reply - reply object that will send response to server
  */
 Games.prototype.show = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 
 	if (this.games == undefined || this.games[id] == undefined) {
 		return reply("There is no game in this channel to show.");
@@ -64,7 +64,7 @@ Games.prototype.show = function(request, reply) {
  * param reply - reply object that will send response to server
  */
 Games.prototype.move = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 
 	if (this.games == undefined || this.games[id] == undefined) {
 		return reply("There is no game in this channel, so a move cannot be made.");
@@ -72,16 +72,16 @@ Games.prototype.move = function(request, reply) {
 
 	var currentGame = this.games[id];
 	var playerNames = [currentGame.getPlayers()[0].getName(), currentGame.getPlayers()[1].getName()];
-	var currentUser = "@" + request.query.user_name;
+	var currentUser = "@" + request.payload.user_name;
 
 	// Only allow a move to be made if the player is in the game and it's their turn.
 	if (playerNames[0] != currentUser && playerNames[1] != currentUser) {
 		return reply("You are not an active participant in this game. Only " + playerNames[0] + " and " + playerNames[1] + " can make moves.");
-	} else if ("@" + request.query.user_name != currentGame.getCurrentPlayer().getName()) {
+	} else if ("@" + request.payload.user_name != currentGame.getCurrentPlayer().getName()) {
 		return reply("It is not your turn yet. Wait for " + currentGame.getCurrentPlayer().getName() + " to make a move.");
 	}
 
-	var move = parseInt(request.query.text.split(" ")[1]);
+	var move = parseInt(request.payload.text.split(" ")[1]);
 
 	// Moves that are not on the board or are occupied are invalid.
 	if (move < 1 || move > 9) {
@@ -137,7 +137,7 @@ Games.prototype.help = function(request, reply) {
  * param reply - reply object that will send response to server
  */
 Games.prototype.end = function(request, reply) {
-	var id = request.query.channel_id;
+	var id = request.payload.channel_id;
 
 	if (this.games == undefined || this.games[id] == undefined) {
 		return reply("There is no game in this channel to end.");
