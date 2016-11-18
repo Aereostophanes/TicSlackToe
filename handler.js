@@ -2,7 +2,7 @@ var Games = require("./Games.js");
 var WebClient = require("@slack/client").WebClient;
 
 var token = process.env.SLASH_TOKEN || "";
-var test_token = process.env.TEST_TOKEN || "xoxp-84138053015-84145090146-86399348640-3cbe0da8a69687c5c3a0e70a140213e6";
+var test_token = process.env.TEST_TOKEN || "";
 var games = new Games();
 
 var web = new WebClient(test_token);
